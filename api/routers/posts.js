@@ -17,6 +17,7 @@ router.post("/post", async (req, res) => {
         content,
         authorId: 1,
       },
+      include: { author: true },
     });
 
     res.status(201).json(newPost);
@@ -32,9 +33,10 @@ router.get("/get_latest_posts", async (req, res) => {
     const latestPosts = await prisma.post.findMany({
       take: 10,
       orderBy: { createdAt: "desc" },
+      include: { author: true },
     });
 
-    return res.status(200).json(latestPost);
+    return res.status(200).json(latestPosts);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });

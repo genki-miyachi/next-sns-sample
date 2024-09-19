@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PostCard from "./PostCard";
 import apiClient from "@/lib/apiClient";
 import { Post } from "@/types";
@@ -21,6 +21,19 @@ const Timeline = () => {
       alert("ログインしてください");
     }
   };
+
+  useEffect(() => {
+    const fetchLatestPosts = async () => {
+      try {
+        const response = await apiClient.get("/posts/get_latest_posts");
+        setLatestPosts(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchLatestPosts();
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-100">
