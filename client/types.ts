@@ -2,6 +2,7 @@ export interface Profile {
   id: number;
   bio: string;
   profileImageUrl: string;
+  user: User;
 }
 
 export interface User {
