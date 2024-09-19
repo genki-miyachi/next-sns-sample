@@ -12,7 +12,7 @@ const UserProfile = () => {
               <p className="text-gray-600">はじめまして</p>
             </div>
           </div>
-        </div>
+        </div>  
         <div className="bg-white shadow-md rounded p-4 mb-4">
           <div className="mb-4">
             <div className="flex items-center mb-2">
