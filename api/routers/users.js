@@ -14,12 +14,12 @@ router.get("/find", isAuthenticated, async (req, res) => {
       res.status(404).json({ error: "ユーザーが見つかりませんでした。" });
     }
 
-    res
-      .status(200)
-      .json({
-        user: { id: user.id, username: user.username, email: user.email },
-      });
+    res.status(200).json({
+      user: { id: user.id, username: user.username, email: user.email },
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
+
+module.exports = router;
