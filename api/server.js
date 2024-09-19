@@ -26,4 +26,23 @@ app.post("/api/auth/register", async (req, res) => {
   return res.json({ user });
 });
 
+// ユーザーログインAPI
+app.post("/api/auth/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  const user = prisma.user.findUnique({ where: { email } });
+
+  if (!user) {
+    return res.status(400).json({ message: "User does not exists" });
+  }
+
+  const isPasswordValid = await bcrypt.compare(password, user.password);
+
+  if (!isPasswordValid) {
+    return res.status(401).json({ message: "Invalid Password" });
+  }
+
+  
+});
+
 app.listen(PORT, () => console.log(`server is running on Port :${PORT}`));
