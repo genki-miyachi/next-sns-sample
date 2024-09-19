@@ -1,8 +1,6 @@
 const router = require("express").Router();
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 // つぶやき投稿API
@@ -21,13 +19,11 @@ router.post("/post", async (req, res) => {
       },
     });
 
-    res.status(201).json({ newPost });  
+    res.status(201).json({ newPost });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
-
-  return res.json({ user });
 });
 
 // 最新つぶやき取得API
