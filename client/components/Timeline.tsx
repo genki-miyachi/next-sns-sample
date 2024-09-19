@@ -1,17 +1,21 @@
 import React, { useState } from "react";
-import Post from "./Post";
+import PostCard from "./PostCard";
 import apiClient from "@/lib/apiClient";
+import { Post } from "@/types";
 
 const Timeline = () => {
   const [content, setContent] = useState<string>("");
+  const [latestPosts, setLatestPosts] = useState<Post[]>([]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
-      await apiClient.post("/posts/post", {
+      const newPost = await apiClient.post("/posts/post", {
         content,
       });
+
+      setLatestPosts((prevPosts) => [newPost.data, ...prevPosts]);
     } catch (error) {
       console.error(error);
       alert("ログインしてください");
@@ -38,12 +42,9 @@ const Timeline = () => {
             </button>
           </form>
         </div>
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
+        {latestPosts.map((post: Post) => (
+          <PostCard key={post.id} post={post} />
+        ))}
       </main>
     </div>
   );
