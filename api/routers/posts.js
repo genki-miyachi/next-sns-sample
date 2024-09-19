@@ -27,26 +27,18 @@ router.post("/post", async (req, res) => {
 });
 
 // 最新つぶやき取得API
-// router.post("/login", async (req, res) => {
-//   const { email, password } = req.body;
+router.get("/get_latest_posts", async (req, res) => {
+  try {
+    const latestPosts = await prisma.post.findMany({
+      take: 10,
+      orderBy: { createdAt: "desc" },
+    });
 
-//   const user = await prisma.user.findUnique({ where: { email } });
-
-//   if (!user) {
-//     return res.status(400).json({ message: "User does not exists" });
-//   }
-
-//   const isPasswordValid = await bcrypt.compare(password, user.password);
-
-//   if (!isPasswordValid) {
-//     return res.status(401).json({ message: "Invalid Password" });
-//   }
-
-//   const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, {
-//     expiresIn: "1d",
-//   });
-
-//   return res.json({ token });
-// });
+    return res.status(200).json(latestPost);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
 
 module.exports = router;
