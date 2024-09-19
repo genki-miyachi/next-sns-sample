@@ -44,4 +44,24 @@ router.get("/get_latest_posts", async (req, res) => {
   }
 });
 
+// ユーザー毎のつぶやき取得API
+router.get("/:userId", async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const userPosts = await prisma.post.findMany({
+      where: { authorId: parseInt(userId) },
+      orderBy: { createdAt: "desc" },
+      include: { author: true },
+    });
+
+    console.log(userPosts);
+
+    return res.status(200).json(userPosts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
 module.exports = router;

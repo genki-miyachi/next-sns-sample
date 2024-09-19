@@ -41,7 +41,7 @@ router.get("/profile/:userId", async (req, res) => {
       res.status(404).json({ error: "ユーザーが見つかりませんでした。" });
     }
 
-    res.status(200).json({ profile });
+    res.status(200).json(profile);
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ error: err.message });
