@@ -1,4 +1,5 @@
 import { Post } from "@/types";
+import Image from "next/image";
 import React from "react";
 
 type Props = {
@@ -7,14 +8,14 @@ type Props = {
 
 const PostCard = (props: Props) => {
   const { post } = props;
-
+  console.log(post.author.profile);
   return (
     <div className="bg-white shadow-md rounded p-4 mb-4">
       <div className="mb-4">
         <div className="flex items-center mb-2">
           <img
             className="w-10 h-10 rounded-full mr-2"
-            src="https://via.placeholder.com/150"
+            src={post.author.profile?.profileImageUrl}
             alt="User Avatar"
           />
           <div>

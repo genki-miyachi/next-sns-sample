@@ -3,11 +3,14 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const generateIdenticon = require("../utils/generateIdenticon");
 require("dotenv").config();
 
 // 新規ユーザー登録API
 router.post("/register", async (req, res) => {
   const { username, email, password } = req.body;
+
+  const defaultIconImage = generateIdenticon(email);
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -19,10 +22,11 @@ router.post("/register", async (req, res) => {
       profile: {
         create: {
           bio: "はじめまして",
-          profileImageUrl: "sample.jpg",
+          profileImageUrl: defaultIconImage,
         },
       },
     },
+    include: { profile: true },
   });
 
   return res.json({ user });
